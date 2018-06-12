@@ -34,6 +34,9 @@ public:
 };
 
 class MainMessageHandler : public MessageHandler {
+public:
+    MainMessageHandler(): MessageHandler() { }
+    MainMessageHandler(MessageQueue *queue) : MessageHandler(queue) {  }
 protected:
     void handleMessage(Message *msg);
 };
@@ -78,7 +81,7 @@ void MyThread::run()
     /* not message thread, using default loop thread (handleMessage in another thread) */
     printf("MyThread: send message ppid[%lu]\n", pthread_self());
     MainMessageHandler *handler = new MainMessageHandler();
-    printf("Send message MT_SYSTEM with 1s delay!");
+    printf("Send message MT_SYSTEM with 1s delay!\n");
     handler->sendEmptyMessageDelayed(MT_SYSTEM, 1000 /* ms */);
     /* do something task */
     sleep(1);
@@ -122,11 +125,28 @@ void MyThread::run()
     std::cout << "MyThread quit!" << std::endl;
 }
 
+class MyLooper : public MessageLooper {
+public:
+    MyLooper() : MessageLooper() { }
+    ~MyLooper() { }
+};
+
 int main(int argc, char *argv[])
 {
     MyThread *mythread = new MyThread();
     sleep(3);
     mythread->start();
+
+    MyLooper *mylooper = new MyLooper();
+    MainMessageHandler *handler = new MainMessageHandler(mylooper->getMessageQueue());
+    mylooper->start();
+    printf("Send message MT_SYSTEM with 1s delay!\n");
+    handler->sendEmptyMessageDelayed(MT_SYSTEM, 2000 /* ms */);
+    handler->sendEmptyMessageDelayed(MT_SYSTEM, 2000 /* ms */);
+    handler->sendEmptyMessageDelayed(MT_SYSTEM, 2000 /* ms */);
+    handler->sendEmptyMessageDelayed(MT_SYSTEM, 2000 /* ms */);
+    handler->sendEmptyMessageDelayed(MT_SYSTEM, 2000 /* ms */);
+
     /* Never return: default loop handle message */
     Looper::getDefaultLooper().run();
     return 0;

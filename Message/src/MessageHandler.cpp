@@ -43,6 +43,11 @@ MessageHandler::MessageHandler(): mQueue(0)
     mCallback = NULL;
 }
 
+MessageHandler::MessageHandler(MessageQueue *queue): mQueue(queue)
+{
+    mCallback = NULL;
+}
+
 MessageHandler::~MessageHandler()
 {
     removeAllMessages(NULL);

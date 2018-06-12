@@ -36,6 +36,7 @@ public:
     virtual void dispatchMessage(Message *msg);
 
     MessageHandler();
+    MessageHandler(MessageQueue *queue);
 
     virtual ~MessageHandler();
 
