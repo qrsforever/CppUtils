@@ -27,13 +27,13 @@ HDREXTS := h H hh hpp HPP h++ hxx hp
 
 # 指定源文件目录, 以及目标文件生成目录
 SRC_DIR = . src
-INC_DIR = . src ../Misc/ ../Message/
+INC_DIR = . src ../Misc/src ../Message/src
 OUT_DIR = output
 OBJ_DIR = $(OUT_DIR)/obj
 
 # 额外增加的源文件或者排除不编译的源文件
 SPECIAL_SRC :=
-EXCLUDE_SRC := ./UnitTest.cpp
+EXCLUDE_SRC := src/UnitTest.cpp
 
 # 设置目标类型(exe, a, so), 及目标名字
 TARGET_TYPE := a
@@ -115,7 +115,7 @@ run:$(TARGET_NAME)
 	@$(TARGET_NAME)
 
 test:$(TARGET_NAME)
-	$(CXX) $(INCLUDE) $(OBJECTS) UnitTest.cpp -o $(OUT_DIR)/$@ $(LDFLAGS) $(CPPFLAGS) ${CFLAGS}
+	$(CXX) $(INCLUDE) $(OBJECTS) src/UnitTest.cpp -o $(OUT_DIR)/$@ $(LDFLAGS) $(CPPFLAGS) ${CFLAGS}
 	$(OUT_DIR)/$@
 
 .PHONY: $(PHONY)
