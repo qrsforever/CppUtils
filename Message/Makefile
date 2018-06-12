@@ -19,7 +19,7 @@ AR		:= $(CROSS_COMPILE)ar
 CFLAGS  := $(OPTIMIZE) $(WARNINGS) $(DEFS)
 CPPFLAGS:= -std=c++11
 LDFLAGS := -L../Misc/output -Loutput -lUtils_misc -lpthread
-INCLUDE := -I../Misc
+INCLUDE := -I../Misc/src
 
 # 源文件可能的后缀
 SRCEXTS := c C cc cpp CPP c++ cxx cp
@@ -33,7 +33,7 @@ OBJ_DIR = $(OUT_DIR)/obj
 
 # 额外增加的源文件或者排除不编译的源文件
 SPECIAL_SRC :=
-EXCLUDE_SRC := ./UnitTest.cpp
+EXCLUDE_SRC := src/UnitTest.cpp
 
 # 设置目标类型(exe, a, so), 及目标名字
 TARGET_TYPE := a
@@ -115,7 +115,7 @@ run:$(TARGET_NAME)
 	@$(TARGET_NAME)
 
 test:$(TARGET_NAME)
-	$(CXX) $(INCLUDE) $(OBJECTS) UnitTest.cpp -o $(OUT_DIR)/$@ $(LDFLAGS) $(CPPFLAGS) ${CFLAGS}
+	$(CXX) $(INCLUDE) $(OBJECTS) src/UnitTest.cpp -o $(OUT_DIR)/$@ $(LDFLAGS) $(CPPFLAGS) ${CFLAGS}
 	$(OUT_DIR)/$@
 
 
