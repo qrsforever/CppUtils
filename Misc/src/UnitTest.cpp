@@ -44,7 +44,7 @@ public:
 void MyRunnable::run()
 {
     std::cout << "MyRunnable run" << std::endl;
-    int len = 0;
+    uint32_t len = 0;
     char payload[64] = { 0 };
     uint8_t *bufPointer;
     uint32_t bufLength;
@@ -106,7 +106,6 @@ void test_RingBuffer()
 
     uint8_t *bufPointer;
     uint32_t bufLength;
-    const int fixSize = 8;
     char payload[12800] = { 0 };
     int offset = 0;
     for (int i = 0; i < 99; ++i) {
@@ -129,6 +128,8 @@ void test_RingBuffer()
 
 int main(int argc, char *argv[])
 {
+    (void)argc;
+    (void)argv;
     test_SysTime();
     test_Thread();
     test_RingBuffer();

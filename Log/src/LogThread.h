@@ -21,7 +21,7 @@ public:
     ~LogThread();
 
     void start();
-    
+
     virtual void run();
 };
 

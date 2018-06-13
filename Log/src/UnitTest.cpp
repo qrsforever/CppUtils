@@ -19,6 +19,8 @@ static LogThread * g_logThread = 0;
 
 int main(int argc, char *argv[])
 {
+    (void)argc;
+    (void)argv;
     g_logThread = new LogThread();
     g_logThread->start();
 

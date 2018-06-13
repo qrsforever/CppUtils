@@ -25,7 +25,6 @@ enum {
 };
 
 class MainMessageHandler;
-static MainMessageHandler *gMainHandler = 0;
 
 class MyObject : public Object {
 public:
@@ -49,7 +48,7 @@ void MainMessageHandler::handleMessage(Message *msg)
     case MT_SYSTEM:
         if (msg->obj) {
 #ifdef USE_SHARED_PTR
-            printf("handle what[system] obj2 count = %d\n", msg->obj.use_count());
+            printf("handle what[system] obj2 count = %ld\n", msg->obj.use_count());
 #else
             printf("handle what[system] obj count = %d\n", msg->obj->getRefCnt());
 #endif
@@ -94,12 +93,12 @@ void MyThread::run()
     Message *msg4 = handler->obtainMessage(MT_SYSTEM, obj2);
     Message *msg5 = handler->obtainMessage(MT_SYSTEM, obj2);
     Message *msg6 = handler->obtainMessage(MT_SYSTEM, obj2);
-    printf("before send message obj2 count = %d\n", obj2.use_count());
+    printf("before send message obj2 count = %ld\n", obj2.use_count());
     handler->sendMessageDelayed(msg4, 1000);
     handler->sendMessageDelayed(msg5, 2000);
     handler->sendMessageDelayed(msg6, 3000);
     obj2.reset();
-    printf("after send message obj2 count = %d\n", obj2.use_count());
+    printf("after send message obj2 count = %ld\n", obj2.use_count());
 #else
     MyObject *obj = new MyObject();
     Message *msg1 = handler->obtainMessage(MT_SYSTEM, obj);
@@ -133,6 +132,8 @@ public:
 
 int main(int argc, char *argv[])
 {
+    (void)argc;
+    (void)argv;
     MyThread *mythread = new MyThread();
     sleep(3);
     mythread->start();
