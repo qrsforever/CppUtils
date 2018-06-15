@@ -9,6 +9,7 @@
 #include "Thread.h"
 #include "SysTime.h"
 #include "RingBuffer.h"
+#include "StringArray.h"
 
 #include <unistd.h>
 #include <string.h>
@@ -126,10 +127,22 @@ void test_RingBuffer()
     std::cout << "test_RingBuffer end" << std::endl;
 }
 
+void test_StringArray()
+{
+    StringArray data;
+    data.put(0, "aa");
+    data.put(1, "bb");
+    data.put(10, "cc");
+
+    printf("(0:%s)\n", data[0]);
+    printf("(10:%s)\n", data.get(10));
+}
+
 int main(int argc, char *argv[])
 {
     (void)argc;
     (void)argv;
+    test_StringArray();
     test_SysTime();
     test_Thread();
     test_RingBuffer();

@@ -67,6 +67,12 @@ void setLogLevel(int level)
 }
 
 extern "C"
+int getLogLevel()
+{
+    return g_logLevel;
+}
+
+extern "C"
 void initLogThread()
 {
     if (0 == g_logThread) {

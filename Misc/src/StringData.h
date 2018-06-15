@@ -19,8 +19,9 @@ class StringData : public Object {
 public:
     StringData(const char* data);
     ~StringData();
-    const int getSize() const { return mSize; }
+    int getSize() const { return mSize; }
     const char* getData() const { return mData; }
+
 private:
     char* mData;
     int mSize;

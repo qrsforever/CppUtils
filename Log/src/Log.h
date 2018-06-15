@@ -77,6 +77,7 @@ extern "C" {
 void initLogThread();
 void logInit();
 void logVerbose(const char *file, int line, const char *function, int level, const char *fmt, ...);
+int getLogLevel();
 void setLogLevel(int level);
 
 #ifdef __cplusplus
