@@ -25,7 +25,7 @@ enum LogLevel {
     LOG_LEVEL_TRACE = 0x05
 };
 
-#ifdef NDEBUG
+#ifdef NULLDEBUG
 
 #define LOGE(args...) ((void)0)
 #define LOGW(args...) ((void)0)
@@ -33,7 +33,7 @@ enum LogLevel {
 #define LOGI(args...) ((void)0)
 #define LOGT(args...) ((void)0)
 
-#else /* NDEBUG */
+#else /* NULLDEBUG */
 
 extern int g_logLevel;
 #define LOGE(args...) \
@@ -65,6 +65,8 @@ do { \
     if (g_logLevel >= LOG_LEVEL_TRACE) \
         logVerbose(__FILE__, __LINE__, __FUNCTION__, LOG_LEVEL_TRACE, args); \
 } while(0)
+
+#define LOGTT()  LOGT(" >>>>>> run here <<<<<<< \n")
 
 #endif /* NDEBUG */
 

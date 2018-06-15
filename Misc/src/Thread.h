@@ -34,6 +34,7 @@ public:
     virtual void run() = 0;
 
     static Thread *currentThread();
+    pthread_t id() { return mID; }
 
 private:
     void _init(pthread_t id = 0);

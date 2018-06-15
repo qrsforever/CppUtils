@@ -31,9 +31,9 @@ private:
     static TYPE* _sInstance;
 };
 
-#define SINGLETON_STATIC_INSTANCE(TYPE)                 \
-    template<> TYPE* Singleton< TYPE >::_sInstance(0);  \
-    template class Singleton< TYPE >;
+#define SINGLETON_STATIC_INSTANCE(TYPE)                          \
+    template<> TYPE* ::UTILS::Singleton< TYPE >::_sInstance(0);  \
+    template class ::UTILS::Singleton< TYPE >;
 
 } /* namespace UTILS */
 
