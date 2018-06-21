@@ -8,7 +8,7 @@ TOPDIR := $(shell pwd)
 # 其他变量
 OPTIMIZE := -O0
 WARNINGS := -Wall -Wno-unused -Wno-format -g
-DEFS     := -DDEBUG -DNOT_USE_LOGPOOL
+DEFS     := -DDEBUG -DUSE_SQLITE_LOG
 
 # 初始化编译工具以及编译选项
 CROSS_COMPILE =
@@ -18,7 +18,7 @@ CC		:=
 AR		:= $(CROSS_COMPILE)ar
 CFLAGS  := $(OPTIMIZE) $(WARNINGS) $(DEFS)
 CPPFLAGS:= -std=c++11
-LDFLAGS := -lpthread
+LDFLAGS := -lpthread -lsqlite3
 INCLUDE :=
 
 # 源文件可能的后缀
@@ -26,8 +26,8 @@ SRCEXTS := c C cc cpp CPP c++ cxx cp
 HDREXTS := h H hh hpp HPP h++ hxx hp
 
 # 指定源文件目录, 以及目标文件生成目录
-SRC_DIR = . src ./Misc/src ./Message/src ./Log/src ./SQLite/src
-INC_DIR = . src ./Misc/src ./Message/src ./Log/src ./SQLite/src
+SRC_DIR = . src
+INC_DIR = . src
 OUT_DIR = output
 OBJ_DIR = $(OUT_DIR)/obj
 
@@ -36,9 +36,9 @@ SPECIAL_SRC :=
 EXCLUDE_SRC := %UnitTest.cpp
 
 # 设置目标类型(exe, a, so), 及目标名字
-TARGET_TYPE := so
+TARGET_TYPE := a
 TARGET_TYPE := $(strip $(TARGET_TYPE))
-TARGET_NAME := utils
+TARGET_NAME := Utils_sqlite3
 
 ifeq ($(TARGET_NAME), )
 	TARGET_NAME := $(shell basename $(PWD))
@@ -113,5 +113,9 @@ clean:
 
 run:$(TARGET_NAME)
 	@$(TARGET_NAME)
+
+test:$(TARGET_NAME)
+	$(CXX) $(INCLUDE) $(OBJECTS) UnitTest.cpp -o $(OUT_DIR)/$@ $(LDFLAGS) $(CPPFLAGS)
+	$(OUT_DIR)/$@
 
 .PHONY: $(PHONY)
