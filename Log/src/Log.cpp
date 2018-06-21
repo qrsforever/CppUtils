@@ -17,7 +17,7 @@
 #include <stdarg.h>
 
 #ifndef LOG_BUFFER_SIZE
-#define LOG_BUFFER_SIZE 10240
+#define LOG_BUFFER_SIZE 128 * 1024
 #endif
 
 int g_logLevel = LOG_LEVEL_WARNING;
