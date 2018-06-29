@@ -28,6 +28,7 @@ public:
 private:
     int logPrefix(char *buffer, int length, const char *file, int line, const char *function, int level);
     bool mPrefix;
+    bool mShowThreadID;
     Mutex mMutex;
     DataSink *mDataSink;
 }; /* class LogSource */

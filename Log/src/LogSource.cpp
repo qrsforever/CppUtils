@@ -21,7 +21,7 @@ SINGLETON_STATIC_INSTANCE(LogSource)
 
 static const char* textLevel[] = {"Assert : ", "Error! : ", "Warning: ", "Debug : ", "Info: ", "Trace: "};
 
-LogSource::LogSource() : mPrefix(true), mDataSink(0)
+LogSource::LogSource() : mPrefix(true), mShowThreadID(true), mDataSink(0)
 {
 }
 
@@ -109,8 +109,14 @@ int LogSource::logPrefix(char *buffer, int length, const char *file, int line, c
 
     static struct timespec sTimeSpec;
     clock_gettime(CLOCK_REALTIME, &sTimeSpec);
-    return snprintf(buffer, length, "%02d:%02d:%02d.%03d | %s:%d | %s | %s",
-        sDTime.mHour, sDTime.mMinute, sDTime.mSecond, (int)sTimeSpec.tv_nsec / 1000000,  pFile, line, function, textLevel[level]);
+    if (mShowThreadID)
+        return snprintf(buffer, length, "%u | %02d:%02d:%02d.%03d | %s:%d | %s | %s", (unsigned int)pthread_self(),
+            sDTime.mHour, sDTime.mMinute, sDTime.mSecond, (int)sTimeSpec.tv_nsec / 1000000,
+            pFile, line, function, textLevel[level]);
+    else
+        return snprintf(buffer, length, "%02d:%02d:%02d.%03d | %s:%d | %s | %s",
+            sDTime.mHour, sDTime.mMinute, sDTime.mSecond, (int)sTimeSpec.tv_nsec / 1000000,
+            pFile, line, function, textLevel[level]);
 }
 
 } /* namespace UTILS */

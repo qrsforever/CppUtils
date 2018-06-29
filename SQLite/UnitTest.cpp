@@ -46,6 +46,12 @@ void test_query(const char* stmt)
 
 int main(int argc, char *argv[])
 {
+    (void)argc;
+    (void)argv;
+#ifndef USE_SQLITE_LOG
+    initLogThread();
+    setLogLevel(LOG_LEVEL_INFO);
+#endif
     gDB = new SQLiteDatabase();
     if (!gDB)
         return -1;
@@ -100,7 +106,7 @@ int main(int argc, char *argv[])
     LOGD("\n=========UPDATE=============\n");
     values[0] = SQLInt(99);
 	values[1] = SQLText("001");
-    bool ret = gDB->exec(kUpdateStmt, values[0], values[1]);
+    gDB->exec(kUpdateStmt, values[0], values[1]);
     SQLiteResultSet *rs = gDB->query(kQueryStmt2, values[1]);
     if (rs && rs->next()) {
         LOGD("ID: %s\n", rs->columnText(0));
@@ -108,6 +114,21 @@ int main(int argc, char *argv[])
         LOGD("age: %d\n", rs->columnInt(2));
         rs->close();
     }
+
+#define VERSIONS_TABLE_NAME     "versions"
+#define VERSIONS_FIELD_NAME     "Name"
+#define VERSIONS_FIELD_VERSION  "Version"
+#if 0 /* error: cannot bind */
+#define VERSIONS_TABLE_CREATE   "CREATE TABLE ?(? TEXT UNIQUE NOT NULL PRIMARY KEY, ? INT)"
+    values[0] = SQLText(VERSIONS_TABLE_NAME);
+    values[1] = SQLText(VERSIONS_FIELD_NAME);
+    values[2] = SQLText(VERSIONS_FIELD_VERSION);
+    gDB->exec(VERSIONS_TABLE_CREATE,  values, sizeof(values)/sizeof(values[0]));
+#else
+#define VERSIONS_TABLE_CREATE   "CREATE TABLE "\
+    VERSIONS_TABLE_NAME "(" VERSIONS_FIELD_NAME " TEXT UNIQUE NOT NULL PRIMARY KEY, " VERSIONS_FIELD_VERSION " INT)"
+    gDB->exec(VERSIONS_TABLE_CREATE);
+#endif
 
     delete gDB;
     return 0;

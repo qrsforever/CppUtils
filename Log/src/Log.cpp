@@ -15,9 +15,10 @@
 
 #include <stdlib.h>
 #include <stdarg.h>
+#include <string.h>
 
 #ifndef LOG_BUFFER_SIZE
-#define LOG_BUFFER_SIZE 128 * 1024
+#define LOG_BUFFER_SIZE (128*1024)
 #endif
 
 int g_logLevel = LOG_LEVEL_WARNING;
@@ -28,6 +29,20 @@ static UTILS::RingBuffer *g_ringBuffer = 0;
 static UTILS::LogSource *g_logSource = 0;
 static UTILS::LogConsole *g_logConsole = 0;
 static UTILS::LogThread *g_logThread = 0;
+
+#ifdef NOT_USE_LOGPOOL
+static void _LogVerbose(const char *file, int line, const char *function, int level, const char *fmt, va_list args)
+{
+    static char buffer[2048] = { 0 };
+    const char* pFile = strrchr(file, '/');
+    if (pFile)
+        pFile = pFile + 1;
+    else
+        pFile = file;
+    vsnprintf(buffer, 2047, fmt, args);
+    printf("%s:%d | %s | %d | %s",  pFile, line, function, level, buffer);
+}
+#endif
 
 extern "C"
 void logInit() /* called in LogThread */
@@ -51,9 +66,7 @@ void logVerbose(const char *file, int line, const char *function, int level, con
     va_list args;
     va_start(args, fmt);
 #ifdef NOT_USE_LOGPOOL
-    static char buffer[2048] = { 0 };
-    vsnprintf(buffer, 2047, fmt, args);
-    printf("%s", buffer);
+    _LogVerbose(file, line, function, level, fmt, args);
 #else
     g_logSource->logVerbose(file, line, function, level, fmt, args);
 #endif

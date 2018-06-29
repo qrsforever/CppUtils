@@ -9,6 +9,7 @@ TOPDIR := $(shell pwd)
 OPTIMIZE := -O0
 WARNINGS := -Wall -Wno-unused -Wno-format -g
 DEFS     := -DDEBUG
+# DEFS     := -DDEBUG -DNOT_USE_LOGPOOL
 
 # 初始化编译工具以及编译选项
 CROSS_COMPILE =

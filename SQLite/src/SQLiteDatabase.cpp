@@ -34,8 +34,10 @@ bool SQLiteDatabase::open(std::string filepath)
 
     close();
     mSQLiteDBPath = filepath;
-    if (sqlite3_open(mSQLiteDBPath.c_str(), &mSQLiteDB) != SQLITE_OK)
+    if (sqlite3_open(mSQLiteDBPath.c_str(), &mSQLiteDB) != SQLITE_OK) {
+        LOGW("Open DB %s fail!\n", filepath.c_str());
         return false;
+    }
 
 	LOGD("Open DB %s success.\n", filepath.c_str());
     return true;

@@ -35,8 +35,8 @@ void LogThread::start()
 
 void LogThread::run()
 {
+    printf("Log Thread:[%u]\n", (unsigned int)id());
     logInit();
-
     MessageLooper::run();
 }
 
