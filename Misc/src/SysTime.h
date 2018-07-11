@@ -10,6 +10,7 @@
 #define __SysTime_H__
 
 #include <stdint.h>
+#include <time.h>
 
 #ifdef __cplusplus
 
@@ -31,6 +32,9 @@ public:
     static uint32_t GetMSecs();
 
 }; /* class SysTime */
+
+time_t dateTimeToSeconds(SysTime::DateTime &dt);
+SysTime::DateTime secondsToDateTime(time_t secs);
 
 } /* namespace UTILS */
 
