@@ -25,8 +25,7 @@ public:
     double columnDouble(int idx)        const { return sqlite3_column_double(mStmt, idx); }
     int columnInt(int idx)              const { return sqlite3_column_int(mStmt, idx); }
     sqlite3_int64 columnInt64(int idx)  const { return sqlite3_column_int64(mStmt, idx); }
-    const char* columnText(int idx)     const {
-        return (const char*)sqlite3_column_text(mStmt, idx) ? (const char*)sqlite3_column_text(mStmt, idx) : ""; }
+    const char* columnText(int idx)     const { return (const char*)sqlite3_column_text(mStmt, idx); }
 
     SQLiteBlobValue columnBlob(int idx) const {
         int length = sqlite3_column_bytes(mStmt, idx);
@@ -45,7 +44,7 @@ private:
     ~SQLiteResultSet()  {}
     void _closeNeedNoticeDb(bool flag);
 
-    bool isOpen() const { return mDB; }
+    bool isOpen() const { return mDB != 0; }
     void open(SQLiteDatabase *db)  { mDB = db; }
 
 private:
