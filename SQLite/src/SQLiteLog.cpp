@@ -41,4 +41,10 @@ void setLogLevel(int level)
     g_logLevel = level;
 }
 
+#else
+
+int gSqliteModuleLevel = LOG_LEVEL_WARNING;
+
+static LogModule RuleEngineModule("sqlite", gSqliteModuleLevel);
+
 #endif /* USE_SQLITE_LOG */

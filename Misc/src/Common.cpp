@@ -20,11 +20,17 @@ std::string& stringTrim(std::string& text)
     return text;
 }
 
-
 std::string int2String(int num)
 {
     char id[32] = { 0 };
     sprintf(id, "%d", num);
+    return std::string(id);
+}
+
+std::string double2String(double num)
+{
+    char id[64] = { 0 };
+    sprintf(id, "%f", num);
     return std::string(id);
 }
 

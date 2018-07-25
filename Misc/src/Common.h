@@ -18,6 +18,7 @@
 namespace UTILS {
 
 std::string& stringTrim(std::string &text);
+std::string double2String(double num);
 std::string int2String(int num);
 std::vector<std::string> stringSplit(const std::string &text, const std::string &delim);
 

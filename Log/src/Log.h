@@ -68,6 +68,45 @@ do { \
 
 #define LOGTT()  LOGT("run here!\n")
 
+struct LogModule {
+	LogModule(const char*, int&);
+	~LogModule();
+
+	const char* m_name;
+	int&        m_level;
+	LogModule*  m_next;
+};
+
+#define _LOGE(level,args...) \
+do { \
+    if (level >= LOG_LEVEL_ERROR) \
+        logVerbose(__FILE__, __LINE__, __FUNCTION__, LOG_LEVEL_ERROR, args); \
+} while(0)
+
+#define _LOGW(level,args...) \
+do { \
+    if (level >= LOG_LEVEL_WARNING) \
+        logVerbose(__FILE__, __LINE__, __FUNCTION__, LOG_LEVEL_WARNING, args); \
+} while(0)
+
+#define _LOGD(level,args...) \
+do { \
+    if (level >= LOG_LEVEL_DEBUG) \
+        logVerbose(__FILE__, __LINE__, __FUNCTION__, LOG_LEVEL_DEBUG, args); \
+} while(0)
+
+#define _LOGI(level,args...) \
+do { \
+    if (level >= LOG_LEVEL_INFO) \
+        logVerbose(__FILE__, __LINE__, __FUNCTION__, LOG_LEVEL_INFO, args); \
+} while(0)
+
+#define _LOGT(level,args...) \
+do { \
+    if (level >= LOG_LEVEL_TRACE) \
+        logVerbose(__FILE__, __LINE__, __FUNCTION__, LOG_LEVEL_TRACE, args); \
+} while(0)
+
 #endif /* NDEBUG */
 
 #ifdef __cplusplus
@@ -79,6 +118,10 @@ void logInit();
 void logVerbose(const char *file, int line, const char *function, int level, const char *fmt, ...);
 int getLogLevel();
 void setLogLevel(int level);
+
+int setModuleLogLevel(const char *name, int level);
+int getModuleLogLevel(const char *name);
+char* getModuleLogNames(char *names, int len);
 
 #ifdef __cplusplus
 }

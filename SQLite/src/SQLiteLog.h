@@ -72,6 +72,15 @@ void setLogLevel(int level);
 
 #include "Log.h"
 
+extern int gSqliteModuleLevel;
+
+#define SQL_LOGE(args...)  _LOGE(gSqliteModuleLevel, args)
+#define SQL_LOGW(args...)  _LOGW(gSqliteModuleLevel, args)
+#define SQL_LOGD(args...)  _LOGD(gSqliteModuleLevel, args)
+#define SQL_LOGI(args...)  _LOGI(gSqliteModuleLevel, args)
+#define SQL_LOGT(args...)  _LOGT(gSqliteModuleLevel, args)
+#define SQL_LOGTT()  _LOGT(gSqliteModuleLevel, "run here!")
+
 #endif /* USE_SQLITE_LOG */
 
 #endif /* __SQLiteLog_H__ */
